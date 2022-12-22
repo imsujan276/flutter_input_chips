@@ -155,6 +155,9 @@ class FlutterInputChipsState extends State<FlutterInputChips> {
           TextField(
             controller: textCtrl,
             onSubmitted: (value) => addChip(value),
+            onChanged: (value) {
+              if (value.contains(",")) addChip(value.replaceAll(",", ""));
+            },
             onEditingComplete: () {}, // this prevents keyboard from closing
             decoration: widget.inputDecoration,
             textInputAction: widget.inputAction,
