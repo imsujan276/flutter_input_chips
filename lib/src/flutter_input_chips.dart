@@ -44,7 +44,8 @@ class FlutterInputChips extends StatefulWidget {
 
   /// spacing between chips
   final double chipSpacing;
-  // style for chip text/label
+
+  /// style for chip text/label
   final TextStyle? chipTextStyle;
 
   /// backhround color of the chip

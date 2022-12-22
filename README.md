@@ -84,7 +84,8 @@ FlutterInputChips(
 
   /// parent container padding
   final EdgeInsets padding;
-  // padding container decoration
+  
+  /// padding container decoration
   final BoxDecoration? decoration;
 
   /// spacing between chips
