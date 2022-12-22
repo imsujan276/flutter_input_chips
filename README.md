@@ -6,7 +6,7 @@ FlutterInputChips is a Flutter widget that builds the input field with input chi
 [![GitHub](https://img.shields.io/github/license/imsujan276/flutter_input_chips?style=for-the-badge)](https://github.com/imsujan276/flutter_input_chips/blob/main/LICENSE)
 
 ## Demo
-![Demo](demo.gif)
+![Demo](https://github.com/imsujan276/flutter_input_chips/blob/main/demo.gif)
 
 ## Import
 
