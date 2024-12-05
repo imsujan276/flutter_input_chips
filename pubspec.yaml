@@ -1,10 +1,10 @@
 name: flutter_input_chips
 description: Flutter widget that builds the input field with input chips options
-version: 1.0.3
+version: 1.0.4
 homepage: https://github.com/imsujan276/flutter_input_chips
 
 environment:
-  sdk: '>=2.18.5 <3.0.0'
+  sdk: ">=2.18.5 <3.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
