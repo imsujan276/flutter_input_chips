@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_input_chips/src/controller.dart';
 
 ///
 /// [FlutterInputChips] is a Flutter widget that builds the input field with input chips options
 ///
 class FlutterInputChips extends StatefulWidget {
-  /// list of Strings to prepopulate the chips with
+  /// list of Strings to prepopulated the chips with
   final List<String> initialValue;
 
   /// returns a list of string on inout field submitted
@@ -31,7 +32,7 @@ class FlutterInputChips extends StatefulWidget {
   /// text input decoration
   final InputDecoration inputDecoration;
 
-  /// text overflow behaviour
+  /// text overflow behavior
   final TextOverflow textOverflow;
 
   /// keyboard input type
@@ -48,7 +49,7 @@ class FlutterInputChips extends StatefulWidget {
   /// style for chip text/label
   final TextStyle? chipTextStyle;
 
-  /// backhround color of the chip
+  /// background color of the chip
   final Color? chipBackgroundColor;
 
   /// custom delete icon
@@ -59,6 +60,9 @@ class FlutterInputChips extends StatefulWidget {
 
   /// Color for delete icon in the chip
   final Color? chipDeleteIconColor;
+
+  /// controller for the input field
+  final InputChipsController? controller;
 
   const FlutterInputChips({
     super.key,
@@ -81,6 +85,7 @@ class FlutterInputChips extends StatefulWidget {
     this.chipBackgroundColor,
     this.chipDeleteIcon,
     this.chipDeleteIconColor,
+    this.controller,
   }) : assert(maxChips == null || initialValue.length <= maxChips);
 
   @override
@@ -88,27 +93,28 @@ class FlutterInputChips extends StatefulWidget {
 }
 
 class FlutterInputChipsState extends State<FlutterInputChips> {
-  /// set of chips i.e. list of unique chips
-  Set<String> chips = <String>{};
+  /// controller for the input field
+  late final InputChipsController controller;
 
   /// controller for the input field
   final TextEditingController textCtrl = TextEditingController();
 
   /// checks whether the chips has reached the maximum number of chips allowed
   bool get _hasReachedMaxChips =>
-      widget.maxChips != null && chips.length >= widget.maxChips!;
+      widget.maxChips != null && controller.chips.length >= widget.maxChips!;
 
   @override
   void initState() {
-    chips.addAll(widget.initialValue);
+    controller = widget.controller ?? InputChipsController();
+    controller.addAllChips(widget.initialValue);
     super.initState();
   }
 
   /// remove the chip from the list and calls [widget.onChanged]
   void deleteChip(String value) {
     if (widget.enabled) {
-      setState(() => chips.remove(value));
-      widget.onChanged(chips.toList(growable: false));
+      setState(() => controller.removeChip(value));
+      widget.onChanged(controller.chips);
     }
   }
 
@@ -116,10 +122,10 @@ class FlutterInputChipsState extends State<FlutterInputChips> {
   void addChip(String value) {
     if (value.isEmpty || _hasReachedMaxChips) return;
     setState(() {
-      chips.add(value.trim());
+      controller.addChip(value.trim());
     });
     textCtrl.clear();
-    widget.onChanged(chips.toList(growable: false));
+    widget.onChanged(controller.chips);
   }
 
   /// sets the selected chip's value to the text field
@@ -138,7 +144,7 @@ class FlutterInputChipsState extends State<FlutterInputChips> {
         children: [
           Wrap(
               spacing: widget.chipSpacing,
-              children: chips
+              children: controller.chips
                   .map((e) => GestureDetector(
                         onTap: () => onChipSelected(e),
                         child: Chip(
