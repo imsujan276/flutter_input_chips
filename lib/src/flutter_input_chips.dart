@@ -14,6 +14,9 @@ class FlutterInputChips extends StatefulWidget {
   /// number of maximum chips
   final int? maxChips;
 
+  /// callback when the maximum number of chips is reached
+  final VoidCallback? onMaxChipsReached;
+
   /// enables the input field and chip delete ability
   final bool enabled;
 
@@ -86,6 +89,7 @@ class FlutterInputChips extends StatefulWidget {
     this.chipDeleteIcon,
     this.chipDeleteIconColor,
     this.controller,
+    this.onMaxChipsReached,
   }) : assert(maxChips == null || initialValue.length <= maxChips);
 
   @override
@@ -120,7 +124,11 @@ class FlutterInputChipsState extends State<FlutterInputChips> {
 
   /// adds the chip to the list, clear the text field and calls [widget.onChanged]
   void addChip(String value) {
-    if (value.isEmpty || _hasReachedMaxChips) return;
+    if (value.isEmpty || _hasReachedMaxChips) {
+      textCtrl.clear();
+      widget.onMaxChipsReached?.call();
+      return;
+    }
     setState(() {
       controller.addChip(value.trim());
     });

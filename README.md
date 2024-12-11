@@ -44,6 +44,13 @@ FlutterInputChips(
     chipSpacing: 8,
     chipDeleteIconColor: Colors.white,
     chipBackgroundColor: Colors.blueGrey,
+    onMaxChipsReached: () {
+        ScaffoldMessenger.of(context)
+        ..clearSnackBars()
+        ..showSnackBar(
+            const SnackBar(content: Text("Max chips reached!"),),
+        );
+    },
 ),
 ```
 
